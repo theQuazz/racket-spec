@@ -1,6 +1,6 @@
 #lang racket
 
-(require "spec.rkt")
+(require "../spec.rkt")
 
 (spec "1 equals 1" (should eq? 1 1))
 (spec "1 equals 0 ~ intentional fail" (should eq? 1 "0"))
