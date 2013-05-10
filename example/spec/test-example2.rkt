@@ -1,7 +1,7 @@
 #lang racket
 
 (require "../example2.rkt")
-(require "spec.rkt")
+(require "../../spec.rkt")
 
 ;; this is the tests for example2.rkt
 

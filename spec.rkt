@@ -102,7 +102,9 @@
 
 ;; see interface above
 (define (spec-summary)
-        (display (format "Summary: ~a passes, ~a failures\n" num-passes num-failures)))
+        (display (format "\n> Summary: ~a passes, ~a failures\n" num-passes num-failures))
+        (set! num-passes 0)
+        (set! num-failures 0))
 
 
 (define (to-string val)
