@@ -63,26 +63,21 @@
 
 ;; see interface above
 (define (be-within-of num error)
-        (lambda (x) (< (abs (- num x)) error)))
+        (annotated-lambda
+          (lambda (x) (< (abs (- num x)) error))
+          (format "be-within-of ~a by ~a but given" num error)))
 
 
-
-(define (type-of val)
-        (cond [(number? val) 'number]
-              [(string? val) 'string]))
-
-(define (pretty-print-procedure p)
-        (define ps (format "~a" p))
-        (substring ps 12 (- (string-length ps) 1)))
+(struct annotated-lambda (proc note)
+        #:property prop:procedure (struct-field-index proc))
 
 (define (to-string val)
-        (define type (type-of val))
-        (cond [(not (symbol? type))
-               (cond [(null? val) ""]
-                     [(procedure? val) (pretty-print-procedure val)]
-                     [else (format "~a" val)])]
-              [(symbol=? type 'string) val]
-              [(symbol=? type 'number) (number->string val)]))
+        (cond [(null? val) "null"]
+              [(procedure? val)
+               (cond [(annotated-lambda? val)
+                      (annotated-lambda-note val)]
+                     [else (object-name val)])]
+              [else (format "~a" val)]))
 
 (define (should-two-params operator value1 value2)
         (if (operator value1 value2) "" (format "~a should ~a ~a"
@@ -91,7 +86,7 @@
                                                 (to-string value2))))
 
 (define (should-one-param operator value)
-        (if (operator value) "" (format "~a ~a should be true"
+        (if (operator value) "" (format "expected ~a ~a to be true"
                                         (to-string operator)
                                         (to-string value))))
 
