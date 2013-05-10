@@ -12,7 +12,7 @@
 ;; the racket documentation:
 ;; http://docs.racket-lang.org/
 
-(provide spec should be-within-of be-true be-false)
+(provide spec should be-within-of be-true be-false spec-summary)
 
 ;; spec: String String -> Nothing
 ;;   PRE: message is an empty string if test passed else
@@ -53,23 +53,31 @@
 ;;
 ;; --------------------------------------------
 ;;
-;; be-false-> Lambda
+;; be-false: -> Lambda
 ;;   PRE: nothing
 ;;   POST: a lambda which takes a boolean and and determines
 ;;         if its false
 ;; (be-false) returns a lambda to test falseness
+;;
+;; --------------------------------------------
+;;
+;; spec-summary: -> Nothing
+;;   PRE: nothing
+;;   POST: outputs the summary of your tests
+;; (spec-summary) writes x passes, y failures
 
+(define num-passes 0)
+(define num-failures 0)
 
 ;; see interface above
 (define (spec purpose message)
-        (display (string-append (if (= (string-length message) 0)
-                                    "  PASSED: "
-                                    "* FAILED: ")
-                                purpose
-                                (if (> (string-length message) 0)
-                                    (format "\n    => ~a\n" message)
-                                    "")
-                                "\n")))
+        (define passed? (= (string-length message) 0))
+        (if passed?
+          (set! num-passes (+ num-passes 1))
+          (set! num-failures (+ num-failures 1)))
+        (display (if passed?
+                   (format "  PASSED: ~a\n" purpose)
+                   (format "* FAILED: ~a\n    => ~a\n\n" purpose message))))
 
 ;; see interface above
 (define (should operator value1 . extra-values)
@@ -91,6 +99,10 @@
 
 ;; see interface above
 (define be-false (annotated-lambda (lambda (b) (not b)) "it,"))
+
+;; see interface above
+(define (spec-summary)
+        (display (format "Summary: ~a passes, ~a failures\n" num-passes num-failures)))
 
 
 (define (to-string val)

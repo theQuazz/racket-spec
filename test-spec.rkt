@@ -20,3 +20,5 @@
 (spec "failing trueness test ~ intentional fail" (should be-true #f))
 (spec "failing falseness test ~ intentional fail" (should be-false #t))
 
+(spec-summary)
+
