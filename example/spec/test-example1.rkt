@@ -8,8 +8,8 @@
 (spec "Jesse should be a lucky name"
       (should be-true (lucky-name? "Jesse")))
 
-(spec "Edward shoudln't be a lucky name"
-      (should be-false (lucky-name? "Edward")))
+(spec "Bar shoudln't be a lucky name"
+      (should be-false (lucky-name? "Bar")))
 
 (spec "foo should be true"
       (should be-true foo))
