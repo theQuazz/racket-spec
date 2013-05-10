@@ -15,4 +15,8 @@
 (spec "'sym should be a symbol" (should symbol? 'sym))
 (spec "1 shouldn't be a symbol ~ intentional fail" (should symbol? 1))
 (spec "'sym shouldn't be a string ~ intentional fail" (should string? 'sym))
+(spec "true should just be its own test" (should be-true #t))
+(spec "same with false" (should be-false #f))
+(spec "failing trueness test ~ intentional fail" (should be-true #f))
+(spec "failing falseness test ~ intentional fail" (should be-false #t))
 

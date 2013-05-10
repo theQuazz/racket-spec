@@ -12,7 +12,7 @@
 ;; the racket documentation:
 ;; http://docs.racket-lang.org/
 
-(provide spec should be-within-of)
+(provide spec should be-within-of be-true be-false)
 
 ;; spec: String String -> Nothing
 ;;   PRE: message is an empty string if test passed else
@@ -42,6 +42,22 @@
 ;;         specified
 ;; (be-within-of 1.42 0.01) returns a lambda which will check if
 ;; the number passed to the lambda is within 0.01 of 1.42
+;;
+;; --------------------------------------------
+;;
+;; be-true: -> Lambda
+;;   PRE: nothing
+;;   POST: a lambda which takes a boolean and and determines
+;;         if its true
+;; (be-true) returns a lambda to test trueness
+;;
+;; --------------------------------------------
+;;
+;; be-false-> Lambda
+;;   PRE: nothing
+;;   POST: a lambda which takes a boolean and and determines
+;;         if its false
+;; (be-false) returns a lambda to test falseness
 
 
 ;; see interface above
@@ -61,15 +77,21 @@
             (should-one-param operator value1)
             (should-two-params operator value1 (car extra-values)))) ;; only 2 max atm
 
+(struct annotated-lambda (proc note)
+        #:property prop:procedure (struct-field-index proc))
+
 ;; see interface above
 (define (be-within-of num error)
         (annotated-lambda
           (lambda (x) (< (abs (- num x)) error))
           (format "be-within-of ~a by ~a but given" num error)))
 
+;; see interface above
+(define be-true (annotated-lambda (lambda (b) b) "it,"))
 
-(struct annotated-lambda (proc note)
-        #:property prop:procedure (struct-field-index proc))
+;; see interface above
+(define be-false (annotated-lambda (lambda (b) (not b)) "it,"))
+
 
 (define (to-string val)
         (cond [(null? val) "null"]
