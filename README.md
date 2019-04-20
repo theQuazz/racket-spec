@@ -1,17 +1,8 @@
 ## A Simple Test Framework for Racket/Scheme
 
-One of the goals was to not use anything which is high level according to the University.
-I am not sure if I succeeded... up to them to decide.
-
-Its pretty much a rough draft at this point but I think it works well enough to use
-and since I wrote it myself I hope the university will let me use it on my assignments.
-
-### Usage
-
-The best way to use this is probably to create a `spec/` dir within your application
+The best way to use this is to create a `spec/` dir within your application
 and create your tests. Test files should start with `test-` and end with the `.rkt`
-extension. For example `test-foo.rkt` would be a good name for a test file, especially
-if it is testing `foo.rkt`.
+extension. For example `test-foo.rkt` should contain tests for `foo.rkt`.
 
 Within the test file you should require `spec.rkt` and the file you want to test. It
 might look something like this:
